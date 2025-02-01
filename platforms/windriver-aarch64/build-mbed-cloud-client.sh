@@ -55,10 +55,12 @@ else
     echo "Need to place fota_linux_ifs.cpp in /auth"
     exit 1
 fi
+if [ -e /auth/define.txt ]; then
+    cp /auth/define.txt .
+fi
 
 cd __Yocto_Generic_YoctoLinux_mbedtls/
 cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug" -DCMAKE_TOOLCHAIN_FILE="./../pal-platform/Toolchain/ARMGCC/ARMGCC.cmake" -DEXTERNAL_DEFINE_FILE="./../define.txt"
-#-- -j ${IZUMA_USE_CORES}
 make -j${IZUMA_USE_CORES} mbedCloudClientExample.elf
 
 if [ -f "Debug/mbedCloudClientExample.elf" ]; then

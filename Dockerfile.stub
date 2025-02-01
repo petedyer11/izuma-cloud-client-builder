@@ -6,7 +6,6 @@ RUN pip3 install requests
 RUN pip3 install click
 RUN pip3 install manifest-tool
 RUN DEBIAN_FRONTEND=noninteractive apt-get -yq install emacs-nox
-RUN DEBIAN_FRONTEND=noninteractive apt-get -yq install vim
 RUN mkdir /builder
 WORKDIR /builder
 RUN mkdir -p /out
@@ -18,8 +17,6 @@ RUN add-apt-repository -y ppa:mercurial-ppa/releases && apt-get update; pip3 ins
 # unnecessary library
 RUN cd /work/mbed-cloud-client-example && rm -f mbed-os.lib
 RUN cd /work/mbed-cloud-client-example && patch -N -s -p1 < /work/curl_update.patch
-RUN git config --global credential.helper store
-ADD tmp/work/.git-credentials /root
 RUN cd /work/mbed-cloud-client-example && mbed deploy
 RUN cd /work/mbed-cloud-client-example && python3 pal-platform/pal-platform.py deploy --target=Yocto_Generic_YoctoLinux_mbedtls generate
 RUN cd /work/mbed-cloud-client-example && python3 pal-platform/pal-platform.py deploy --target=x86_x64_NativeLinux_mbedtls generate
